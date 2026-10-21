@@ -74,6 +74,24 @@ int main(int argc, char **argv)
 
                 EXPECT_SUCCESS(s2n_error_get_alert(S2N_ERR_BAD_PSK_BINDER, &alert));
                 EXPECT_EQUAL(S2N_TLS_ALERT_DECRYPT_ERROR, alert);
+
+                /*
+                 *= https://www.rfc-editor.org/rfc/rfc9849#section-5.1
+                 *= type=test
+                 *# The server MUST abort the connection with an
+                 *# "illegal_parameter" alert if any of the following are true:
+                 */
+                EXPECT_SUCCESS(s2n_error_get_alert(S2N_ERR_ECH_INVALID_OUTER_EXTENSIONS, &alert));
+                EXPECT_EQUAL(S2N_TLS_ALERT_ILLEGAL_PARAMETER, alert);
+
+                /*
+                 *= https://www.rfc-editor.org/rfc/rfc9849#section-7
+                 *= type=test
+                 *# If ECHClientHello.type is not a valid ECHClientHelloType, then the
+                 *# server MUST abort with an "illegal_parameter" alert.
+                 */
+                EXPECT_SUCCESS(s2n_error_get_alert(S2N_ERR_ECH_INVALID_CLIENT_HELLO, &alert));
+                EXPECT_EQUAL(S2N_TLS_ALERT_ILLEGAL_PARAMETER, alert);
             }
 
             /* Test unknown mapping */

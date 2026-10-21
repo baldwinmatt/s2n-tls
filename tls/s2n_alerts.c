@@ -65,6 +65,19 @@ static S2N_RESULT s2n_translate_protocol_error_to_alert(int error_code, uint8_t 
         S2N_ALERT_CASE(S2N_ERR_KTLS_KEYUPDATE, S2N_TLS_ALERT_UNEXPECTED_MESSAGE);
 
         /*
+         *= https://www.rfc-editor.org/rfc/rfc9849#section-5.1
+         *# The server MUST abort the connection with an
+         *# "illegal_parameter" alert if any of the following are true:
+         */
+        S2N_ALERT_CASE(S2N_ERR_ECH_INVALID_OUTER_EXTENSIONS, S2N_TLS_ALERT_ILLEGAL_PARAMETER);
+        /*
+         *= https://www.rfc-editor.org/rfc/rfc9849#section-7
+         *# If ECHClientHello.type is not a valid ECHClientHelloType, then the
+         *# server MUST abort with an "illegal_parameter" alert.
+         */
+        S2N_ALERT_CASE(S2N_ERR_ECH_INVALID_CLIENT_HELLO, S2N_TLS_ALERT_ILLEGAL_PARAMETER);
+
+        /*
          *= https://www.rfc-editor.org/rfc/rfc8446#section-4.4.4
          *# Recipients of Finished messages MUST verify that the contents are
          *# correct and if incorrect MUST terminate the connection with a
