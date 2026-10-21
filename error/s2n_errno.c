@@ -310,6 +310,8 @@ static const char *no_such_error = "Internal s2n error";
     ERR_ENTRY(S2N_ERR_KTLS_KEYUPDATE, "Received KeyUpdate from peer, but kernel does not support updating tls keys") \
     ERR_ENTRY(S2N_ERR_BAD_FINISHED, "Finished verify_data did not match the expected value") \
     ERR_ENTRY(S2N_ERR_BAD_PSK_BINDER, "PSK binder did not match the expected value") \
+    ERR_ENTRY(S2N_ERR_ECH_INVALID_OUTER_EXTENSIONS, "Invalid ECH ech_outer_extensions: a reference is missing, repeated, out of order, or forbidden") \
+    ERR_ENTRY(S2N_ERR_ECH_INVALID_CLIENT_HELLO, "Invalid ECHClientHello type or EncodedClientHelloInner padding") \
     ERR_ENTRY(S2N_ERR_KTLS_KEY_LIMIT, "Reached key encryption limit, but kernel does not support updating tls keys") \
     ERR_ENTRY(S2N_ERR_KTLS_SOCKOPT, "A call to sockopt failed when attempting to update the keys in the kernel") \
     ERR_ENTRY(S2N_ERR_UNEXPECTED_CERT_REQUEST, "Client forbids mutual authentication, but server requested a cert") \

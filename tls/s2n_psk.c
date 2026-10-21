@@ -336,7 +336,13 @@ int s2n_offered_psk_list_choose_psk(struct s2n_offered_psk_list *psk_list, struc
         POSIX_GUARD(s2n_stuffer_init(&ticket_stuffer, &psk->identity));
         POSIX_GUARD(s2n_stuffer_skip_write(&ticket_stuffer, psk->identity.size));
 
-        /* s2n_resume_decrypt_session appends a new PSK with the decrypted values. */
+        /* s2n_resume_decrypt_session appends a new PSK with the decrypted values.
+         *
+         * It decrypts the ticket in place, and psk->identity points into the
+         * ClientHello's raw_message, so raw_message changes here. That is why
+         * s2n_ech_build_outer_aad must run before the ClientHello extensions
+         * are processed.
+         */
         POSIX_GUARD_RESULT(s2n_resume_decrypt_session(psk_list->conn, &ticket_stuffer));
     }
 

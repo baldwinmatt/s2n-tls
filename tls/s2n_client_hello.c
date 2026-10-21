@@ -401,7 +401,12 @@ S2N_RESULT s2n_client_hello_parse_raw(struct s2n_client_hello *client_hello)
      */
     client_hello->legacy_version = (client_protocol_version[0] * 10) + client_protocol_version[1];
 
-    /* random - read and store it, erasing from raw message */
+    /* random - read and store it, erasing from raw message.
+     *
+     * s2n_ech_build_outer_aad restores the random to rebuild the ECH
+     * ClientHelloOuterAAD. Any further in-place change to raw_message here
+     * must be undone there too.
+     */
     RESULT_GUARD_POSIX(s2n_stuffer_erase_and_read_bytes(in, client_hello->random, S2N_TLS_RANDOM_DATA_LEN));
 
     /* legacy_session_id */
